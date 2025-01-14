@@ -47,7 +47,14 @@ export function DashboardChat({ data }: DashboardChatProps) {
     Your response should:
     - Focus on providing the user with practical steps they can take to improve their hiring process or resolve any issues they're facing.
     - Provide evidence-based conclusions and clearly highlight which data points inform your recommendations.
-    - Offer suggestions for improvements or optimization based on current trends in the data.`;
+    - Offer suggestions for improvements or optimization based on current trends in the data.
+    
+    Format your response in this structure:
+    1. Key Findings (bullet points)
+    2. Analysis (2-3 short paragraphs)
+    3. Recommendations (numbered list)
+    
+    Use markdown formatting for headers and lists.`;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -99,6 +106,21 @@ export function DashboardChat({ data }: DashboardChatProps) {
     }
   };
 
+  const formatResponse = (response: string) => {
+    return (
+      <div className="prose prose-sm max-w-none dark:prose-invert">
+        <div dangerouslySetInnerHTML={{ 
+          __html: response
+            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+            .replace(/\n\n/g, '</p><p>')
+            .replace(/\n/g, '<br/>')
+            .replace(/^/, '<p>')
+            .replace(/$/, '</p>')
+        }} />
+      </div>
+    );
+  };
+
   return (
     <Card className="p-4 space-y-4">
       <h2 className="text-lg font-semibold">Ask about the dashboard</h2>
@@ -123,8 +145,8 @@ export function DashboardChat({ data }: DashboardChatProps) {
         </form>
       </div>
       {response && (
-        <div className="bg-muted p-4 rounded-lg">
-          <p className="text-sm">{response}</p>
+        <div className="bg-muted p-4 rounded-lg overflow-auto max-h-[500px]">
+          {formatResponse(response)}
         </div>
       )}
     </Card>
