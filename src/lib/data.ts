@@ -79,7 +79,7 @@ const roles: Role[] = ['Manager', 'Senior', 'Junior', 'Lead'];
 const leaders: Leader[] = ['John Smith', 'Sarah Johnson', 'Mike Chen', 'Lisa Brown'];
 
 export function generateHiringData(): HiringData[] {
-  const startDate = startOfYear(new Date(2025, 0, 1));
+  const startDate = startOfYear(new Date(2024, 0, 1));
   const data: HiringData[] = [];
 
   segments.forEach(segment => {
@@ -106,7 +106,7 @@ export function generateHiringData(): HiringData[] {
 }
 
 export function generateAttritionData(): AttritionData[] {
-  const startDate = startOfYear(new Date(2025, 0, 1));
+  const startDate = startOfYear(new Date(2024, 0, 1));
   const data: AttritionData[] = [];
 
   segments.forEach(segment => {
