@@ -26,7 +26,7 @@ import {
   Role,
   Leader
 } from "@/lib/data";
-import { addMonths } from "date-fns";
+import { addMonths, isWithinInterval } from "date-fns";
 
 const hiringData = generateHiringData();
 const attritionData = generateAttritionData();
