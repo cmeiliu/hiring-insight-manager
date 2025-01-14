@@ -3,6 +3,7 @@ import { addMonths, format, startOfYear } from 'date-fns';
 export type Segment = 'Sales' | 'Engineering' | 'Marketing' | 'Product' | 'Support';
 export type Role = 'Manager' | 'Senior' | 'Junior' | 'Lead';
 export type Leader = 'John Smith' | 'Sarah Johnson' | 'Mike Chen' | 'Lisa Brown';
+export type CandidateSource = 'Referral' | 'LinkedIn' | 'Job Board' | 'Agency' | 'Direct';
 
 export interface HiringData {
   date: Date;
@@ -33,6 +34,44 @@ export interface TimeToFillData {
   segment: Segment;
   role: Role;
   days: number;
+}
+
+export interface LOAData {
+  segment: Segment;
+  count: number;
+  total: number;
+  impactPercentage: number;
+}
+
+export interface CandidatePoolData {
+  segment: Segment;
+  role: Role;
+  leader: Leader;
+  poolSize: number;
+}
+
+export interface InterviewData {
+  segment: Segment;
+  role: Role;
+  leader: Leader;
+  count: number;
+}
+
+export interface NewHirePerformanceData {
+  segment: Segment;
+  role: Role;
+  pprScore: number;
+  payPerformance: number;
+  tenuredPprScore: number;
+  tenuredPayPerformance: number;
+}
+
+export interface CandidateProfileData {
+  segment: Segment;
+  role: Role;
+  source: CandidateSource;
+  successRate: number;
+  conversionRate: number;
 }
 
 const segments: Segment[] = ['Sales', 'Engineering', 'Marketing', 'Product', 'Support'];
@@ -131,3 +170,82 @@ export function generateTimeToFillData(): TimeToFillData[] {
 export const allSegments = segments;
 export const allRoles = roles;
 export const allLeaders = leaders;
+
+export function generateLOAData(): LOAData[] {
+  return segments.map(segment => ({
+    segment,
+    count: Math.floor(Math.random() * 20) + 5,
+    total: Math.floor(Math.random() * 100) + 50,
+    impactPercentage: Math.random() * 15 + 5
+  }));
+}
+
+export function generateCandidatePoolData(): CandidatePoolData[] {
+  const data: CandidatePoolData[] = [];
+  segments.forEach(segment => {
+    roles.forEach(role => {
+      leaders.forEach(leader => {
+        data.push({
+          segment,
+          role,
+          leader,
+          poolSize: Math.floor(Math.random() * 50) + 10
+        });
+      });
+    });
+  });
+  return data;
+}
+
+export function generateInterviewData(): InterviewData[] {
+  const data: InterviewData[] = [];
+  segments.forEach(segment => {
+    roles.forEach(role => {
+      leaders.forEach(leader => {
+        data.push({
+          segment,
+          role,
+          leader,
+          count: Math.floor(Math.random() * 30) + 5
+        });
+      });
+    });
+  });
+  return data;
+}
+
+export function generateNewHirePerformanceData(): NewHirePerformanceData[] {
+  const data: NewHirePerformanceData[] = [];
+  segments.forEach(segment => {
+    roles.forEach(role => {
+      data.push({
+        segment,
+        role,
+        pprScore: Math.random() * 5,
+        payPerformance: Math.random() * 120 + 80,
+        tenuredPprScore: Math.random() * 5,
+        tenuredPayPerformance: Math.random() * 120 + 90
+      });
+    });
+  });
+  return data;
+}
+
+export function generateCandidateProfileData(): CandidateProfileData[] {
+  const sources: CandidateSource[] = ['Referral', 'LinkedIn', 'Job Board', 'Agency', 'Direct'];
+  const data: CandidateProfileData[] = [];
+  segments.forEach(segment => {
+    roles.forEach(role => {
+      sources.forEach(source => {
+        data.push({
+          segment,
+          role,
+          source,
+          successRate: Math.random() * 0.6 + 0.2,
+          conversionRate: Math.random() * 0.4 + 0.1
+        });
+      });
+    });
+  });
+  return data;
+}

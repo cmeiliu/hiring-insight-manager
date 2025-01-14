@@ -4,11 +4,21 @@ import { HiringChart } from "@/components/dashboard/HiringChart";
 import { AttritionChart } from "@/components/dashboard/AttritionChart";
 import { RequisitionChart } from "@/components/dashboard/RequisitionChart";
 import { TimeToFillChart } from "@/components/dashboard/TimeToFillChart";
+import { LOAChart } from "@/components/dashboard/LOAChart";
+import { CandidatePoolChart } from "@/components/dashboard/CandidatePoolChart";
+import { InterviewChart } from "@/components/dashboard/InterviewChart";
+import { NewHirePerformanceChart } from "@/components/dashboard/NewHirePerformanceChart";
+import { CandidateProfileChart } from "@/components/dashboard/CandidateProfileChart";
 import {
   generateHiringData,
   generateAttritionData,
   generateRequisitionData,
   generateTimeToFillData,
+  generateLOAData,
+  generateCandidatePoolData,
+  generateInterviewData,
+  generateNewHirePerformanceData,
+  generateCandidateProfileData,
   Segment,
   Role,
   Leader
@@ -18,6 +28,11 @@ const hiringData = generateHiringData();
 const attritionData = generateAttritionData();
 const requisitionData = generateRequisitionData();
 const timeToFillData = generateTimeToFillData();
+const loaData = generateLOAData();
+const candidatePoolData = generateCandidatePoolData();
+const interviewData = generateInterviewData();
+const newHirePerformanceData = generateNewHirePerformanceData();
+const candidateProfileData = generateCandidateProfileData();
 
 export default function Index() {
   const [segment, setSegment] = useState<Segment | 'All'>('All');
@@ -54,6 +69,11 @@ export default function Index() {
           <AttritionChart data={filterData(attritionData)} />
           <RequisitionChart data={filterData(requisitionData)} />
           <TimeToFillChart data={filterData(timeToFillData)} />
+          <LOAChart data={filterData(loaData)} />
+          <CandidatePoolChart data={filterData(candidatePoolData)} />
+          <InterviewChart data={filterData(interviewData)} />
+          <NewHirePerformanceChart data={filterData(newHirePerformanceData)} />
+          <CandidateProfileChart data={filterData(candidateProfileData)} />
         </div>
       </div>
     </div>
