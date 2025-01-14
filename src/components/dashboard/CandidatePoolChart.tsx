@@ -19,6 +19,43 @@ export function CandidatePoolChart({ data }: CandidatePoolChartProps) {
   const largestPool = data.reduce((max, item) => Math.max(max, item.poolSize), 0);
   const largestPoolSegment = data.find(item => item.poolSize === largestPool);
 
+  const CustomizedContent = (props: any) => {
+    const { root, depth, x, y, width, height, name, size } = props;
+    return (
+      <g>
+        <rect
+          x={x}
+          y={y}
+          width={width}
+          height={height}
+          style={{
+            fill: '#8884d8',
+            stroke: '#fff',
+            strokeWidth: 2 / (depth + 1e-10),
+            strokeOpacity: 1 / (depth + 1e-10),
+          }}
+        />
+        {width > 50 && height > 30 && (
+          <text
+            x={x + width / 2}
+            y={y + height / 2}
+            textAnchor="middle"
+            dominantBaseline="middle"
+            style={{
+              fill: '#fff',
+              fontSize: '12px',
+              fontWeight: 'bold',
+              pointerEvents: 'none',
+            }}
+          >
+            <tspan x={x + width / 2} dy="-0.5em">{name}</tspan>
+            <tspan x={x + width / 2} dy="1.2em">{size}</tspan>
+          </text>
+        )}
+      </g>
+    );
+  };
+
   return (
     <Card className="dashboard-card">
       <h2 className="text-lg font-semibold mb-2">Candidate Pool Sizes</h2>
@@ -34,6 +71,7 @@ export function CandidatePoolChart({ data }: CandidatePoolChartProps) {
             aspectRatio={4 / 3}
             stroke="#fff"
             fill="#8884d8"
+            content={<CustomizedContent />}
           >
             <Tooltip />
           </Treemap>
