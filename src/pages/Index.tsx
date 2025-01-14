@@ -26,6 +26,7 @@ import {
   Role,
   Leader
 } from "@/lib/data";
+import { startOfYear, endOfYear, isWithinInterval } from "date-fns";
 
 const hiringData = generateHiringData();
 const attritionData = generateAttritionData();
@@ -41,13 +42,20 @@ export default function Index() {
   const [segment, setSegment] = useState<Segment | 'All'>('All');
   const [role, setRole] = useState<Role | 'All'>('All');
   const [leader, setLeader] = useState<Leader | 'All'>('All');
+  const [dateRange, setDateRange] = useState<{ from: Date | undefined; to: Date | undefined }>({
+    from: startOfYear(new Date()),
+    to: endOfYear(new Date())
+  });
 
-  const filterData = <T extends { segment: Segment; role?: Role; leader?: Leader }>(data: T[]): T[] => {
+  const filterData = <T extends { segment: Segment; role?: Role; leader?: Leader; date?: Date }>(data: T[]): T[] => {
     return data.filter((item) => {
       const segmentMatch = segment === 'All' || item.segment === segment;
       const roleMatch = role === 'All' || !item.role || item.role === role;
       const leaderMatch = leader === 'All' || !item.leader || item.leader === leader;
-      return segmentMatch && roleMatch && leaderMatch;
+      const dateMatch = !item.date || !dateRange.from || !dateRange.to || 
+        isWithinInterval(item.date, { start: dateRange.from, end: dateRange.to });
+      
+      return segmentMatch && roleMatch && leaderMatch && dateMatch;
     });
   };
 
@@ -66,9 +74,11 @@ export default function Index() {
           segment={segment}
           role={role}
           leader={leader}
+          dateRange={dateRange}
           onSegmentChange={setSegment}
           onRoleChange={setRole}
           onLeaderChange={setLeader}
+          onDateRangeChange={setDateRange}
         />
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
