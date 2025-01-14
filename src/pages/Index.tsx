@@ -9,6 +9,9 @@ import { CandidatePoolChart } from "@/components/dashboard/CandidatePoolChart";
 import { InterviewChart } from "@/components/dashboard/InterviewChart";
 import { NewHirePerformanceChart } from "@/components/dashboard/NewHirePerformanceChart";
 import { CandidateProfileChart } from "@/components/dashboard/CandidateProfileChart";
+import { Button } from "@/components/ui/button";
+import { Download } from "lucide-react";
+import { downloadAllDatasets } from "@/lib/exportUtils";
 import {
   generateHiringData,
   generateAttritionData,
@@ -53,6 +56,10 @@ export default function Index() {
       <div className="max-w-[1600px] mx-auto space-y-6">
         <div className="flex items-center justify-between mb-8">
           <h1 className="text-3xl font-bold">HR Analytics Dashboard</h1>
+          <Button onClick={downloadAllDatasets} variant="outline">
+            <Download className="mr-2 h-4 w-4" />
+            Download All Data
+          </Button>
         </div>
 
         <FilterBar
