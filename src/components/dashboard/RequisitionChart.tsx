@@ -24,9 +24,17 @@ export function RequisitionChart({ data }: RequisitionChartProps) {
     return acc;
   }, []);
 
+  const totalOpen = chartData.reduce((sum, item) => sum + item.open, 0);
+  const totalBudgeted = chartData.reduce((sum, item) => sum + item.budgeted, 0);
+  const fillRate = totalBudgeted > 0 ? ((totalBudgeted - totalOpen) / totalBudgeted * 100).toFixed(1) : 0;
+
   return (
     <Card className="dashboard-card">
-      <h2 className="text-lg font-semibold mb-4">Open vs Budgeted Requisitions</h2>
+      <h2 className="text-lg font-semibold mb-2">Open vs Budgeted Requisitions</h2>
+      <p className="text-sm text-muted-foreground mb-4">
+        {`${fillRate}% of budgeted positions are filled. `}
+        {`${totalOpen} positions remain open out of ${totalBudgeted} budgeted roles.`}
+      </p>
       <div className="h-[300px]">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={chartData}>

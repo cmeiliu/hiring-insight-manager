@@ -15,9 +15,17 @@ export function CandidatePoolChart({ data }: CandidatePoolChartProps) {
     })),
   };
 
+  const totalCandidates = data.reduce((sum, item) => sum + item.poolSize, 0);
+  const largestPool = data.reduce((max, item) => Math.max(max, item.poolSize), 0);
+  const largestPoolSegment = data.find(item => item.poolSize === largestPool);
+
   return (
     <Card className="dashboard-card">
-      <h2 className="text-lg font-semibold mb-4">Candidate Pool Sizes</h2>
+      <h2 className="text-lg font-semibold mb-2">Candidate Pool Sizes</h2>
+      <p className="text-sm text-muted-foreground mb-4">
+        {`Total of ${totalCandidates} candidates across all pools. `}
+        {largestPoolSegment && `Largest pool is ${largestPoolSegment.segment} - ${largestPoolSegment.role} with ${largestPool} candidates.`}
+      </p>
       <div className="h-[300px]">
         <ResponsiveContainer width="100%" height="100%">
           <Treemap

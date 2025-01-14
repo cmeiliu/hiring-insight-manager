@@ -17,9 +17,16 @@ export function InterviewChart({ data }: InterviewChartProps) {
     return acc;
   }, []);
 
+  const totalInterviews = aggregatedData.reduce((sum, item) => sum + item.count, 0);
+  const highestSegment = aggregatedData.reduce((max, item) => item.count > max.count ? item : max, aggregatedData[0]);
+
   return (
     <Card className="dashboard-card">
-      <h2 className="text-lg font-semibold mb-4">Interview Counts by Segment</h2>
+      <h2 className="text-lg font-semibold mb-2">Interview Counts by Segment</h2>
+      <p className="text-sm text-muted-foreground mb-4">
+        {`Total of ${totalInterviews} interviews conducted. `}
+        {highestSegment && `${highestSegment.segment} had the most interviews with ${highestSegment.count}.`}
+      </p>
       <div className="h-[300px]">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={aggregatedData}>

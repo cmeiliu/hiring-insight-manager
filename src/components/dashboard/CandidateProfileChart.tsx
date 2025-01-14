@@ -22,9 +22,17 @@ export function CandidateProfileChart({ data }: CandidateProfileChartProps) {
     return acc;
   }, []);
 
+  const bestSource = aggregatedData.reduce((max, item) => 
+    (item.successRate + item.conversionRate) > (max.successRate + max.conversionRate) ? item : max, 
+    aggregatedData[0]
+  );
+
   return (
     <Card className="dashboard-card">
-      <h2 className="text-lg font-semibold mb-4">Candidate Profile Effectiveness</h2>
+      <h2 className="text-lg font-semibold mb-2">Candidate Profile Effectiveness</h2>
+      <p className="text-sm text-muted-foreground mb-4">
+        {bestSource && `${bestSource.source} is the most effective source with ${(bestSource.successRate * 100).toFixed(1)}% success and ${(bestSource.conversionRate * 100).toFixed(1)}% conversion rates.`}
+      </p>
       <div className="h-[300px]">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={aggregatedData}>

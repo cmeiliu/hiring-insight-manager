@@ -13,7 +13,7 @@ export function AttritionChart({ data }: AttritionChartProps) {
     const existing = acc.find(item => item.month === monthKey);
     
     if (existing) {
-      existing.rate = (existing.rate + curr.rate) / 2; // Average rate
+      existing.rate = (existing.rate + curr.rate) / 2;
     } else {
       acc.push({
         month: monthKey,
@@ -24,9 +24,19 @@ export function AttritionChart({ data }: AttritionChartProps) {
     return acc;
   }, []);
 
+  const averageRate = chartData.reduce((sum, item) => sum + item.rate, 0) / chartData.length;
+  const latestRate = chartData[chartData.length - 1]?.rate;
+
   return (
     <Card className="dashboard-card">
-      <h2 className="text-lg font-semibold mb-4">Attrition Rate Trends</h2>
+      <h2 className="text-lg font-semibold mb-2">Attrition Rate Trends</h2>
+      <p className="text-sm text-muted-foreground mb-4">
+        {`The average attrition rate is ${averageRate.toFixed(1)}%. `}
+        {latestRate && `The most recent rate is ${latestRate.toFixed(1)}%, `}
+        {latestRate && averageRate && latestRate > averageRate 
+          ? "showing an increase from the average."
+          : "showing a decrease from the average."}
+      </p>
       <div className="h-[300px]">
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart data={chartData}>

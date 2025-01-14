@@ -26,9 +26,17 @@ export function HiringChart({ data }: HiringChartProps) {
     return acc;
   }, []);
 
+  const totalPlanned = chartData.reduce((sum, item) => sum + item.planned, 0);
+  const totalActual = chartData.reduce((sum, item) => sum + item.actual, 0);
+  const hiringProgress = totalPlanned > 0 ? (totalActual / totalPlanned * 100).toFixed(1) : 0;
+
   return (
     <Card className="dashboard-card">
-      <h2 className="text-lg font-semibold mb-4">Hiring Plan vs Actuals</h2>
+      <h2 className="text-lg font-semibold mb-2">Hiring Plan vs Actuals</h2>
+      <p className="text-sm text-muted-foreground mb-4">
+        {`Achieved ${hiringProgress}% of planned hiring targets. `}
+        {`Planned to hire ${totalPlanned} and actually hired ${totalActual} people.`}
+      </p>
       <div className="h-[300px]">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={chartData}>
