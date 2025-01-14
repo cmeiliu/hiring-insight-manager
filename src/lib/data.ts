@@ -1,4 +1,4 @@
-import { addMonths, format, startOfYear } from 'date-fns';
+import { addMonths, format, startOfYear, endOfYear } from 'date-fns';
 
 export type Segment = 'Sales' | 'Engineering' | 'Marketing' | 'Product' | 'Support';
 export type Role = 'Manager' | 'Senior' | 'Junior' | 'Lead';
@@ -80,12 +80,14 @@ const leaders: Leader[] = ['John Smith', 'Sarah Johnson', 'Mike Chen', 'Lisa Bro
 
 export function generateHiringData(): HiringData[] {
   const startDate = startOfYear(new Date(2024, 0, 1));
+  const endDate = new Date(2025, 0, 13);
+  const monthDiff = 13; // Months between Jan 2024 and Jan 13, 2025
   const data: HiringData[] = [];
 
   segments.forEach(segment => {
     roles.forEach(role => {
       leaders.forEach(leader => {
-        for (let i = 0; i < 12; i++) {
+        for (let i = 0; i < monthDiff; i++) {
           const planned = Math.floor(Math.random() * 10) + 1;
           const actual = Math.floor(planned * (0.7 + Math.random() * 0.6));
           
@@ -107,10 +109,12 @@ export function generateHiringData(): HiringData[] {
 
 export function generateAttritionData(): AttritionData[] {
   const startDate = startOfYear(new Date(2024, 0, 1));
+  const endDate = new Date(2025, 0, 13);
+  const monthDiff = 13;
   const data: AttritionData[] = [];
 
   segments.forEach(segment => {
-    for (let i = 0; i < 12; i++) {
+    for (let i = 0; i < monthDiff; i++) {
       const total = Math.floor(Math.random() * 100) + 50;
       const count = Math.floor(Math.random() * 10);
       const rate = (count / total) * 100;

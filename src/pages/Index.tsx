@@ -26,7 +26,7 @@ import {
   Role,
   Leader
 } from "@/lib/data";
-import { startOfYear, endOfYear, isWithinInterval } from "date-fns";
+import { addMonths } from "date-fns";
 
 const hiringData = generateHiringData();
 const attritionData = generateAttritionData();
@@ -42,9 +42,10 @@ export default function Index() {
   const [segment, setSegment] = useState<Segment | 'All'>('All');
   const [role, setRole] = useState<Role | 'All'>('All');
   const [leader, setLeader] = useState<Leader | 'All'>('All');
+  const today = new Date();
   const [dateRange, setDateRange] = useState<{ from: Date | undefined; to: Date | undefined }>({
-    from: startOfYear(new Date()),
-    to: endOfYear(new Date())
+    from: addMonths(today, -3),
+    to: today
   });
 
   const filterData = <T extends { segment: Segment; role?: Role; leader?: Leader; date?: Date }>(data: T[]): T[] => {
