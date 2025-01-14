@@ -1,5 +1,6 @@
 import { saveAs } from 'file-saver';
 import { format } from 'date-fns';
+import JSZip from 'jszip';
 import {
   generateHiringData,
   generateAttritionData,
@@ -47,7 +48,7 @@ export const downloadAllDatasets = () => {
   ];
 
   // Create a zip file containing all CSVs
-  const zip = require('jszip')();
+  const zip = new JSZip();
   
   datasets.forEach(({ name, data }) => {
     const csv = convertToCSV(data, name);
