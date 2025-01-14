@@ -7,11 +7,21 @@ interface CandidatePoolChartProps {
 }
 
 export function CandidatePoolChart({ data }: CandidatePoolChartProps) {
+  // Define colors for each segment
+  const segmentColors: { [key: string]: string } = {
+    'Sales': '#4CAF50',
+    'Engineering': '#2196F3',
+    'Marketing': '#FF9800',
+    'Product': '#9C27B0',
+    'Support': '#F44336'
+  };
+
   const transformedData = {
     name: 'Candidate Pools',
     children: data.map(item => ({
       name: `${item.segment} - ${item.role}`,
       size: item.poolSize,
+      segment: item.segment // Add segment for coloring
     })),
   };
 
@@ -20,7 +30,7 @@ export function CandidatePoolChart({ data }: CandidatePoolChartProps) {
   const largestPoolSegment = data.find(item => item.poolSize === largestPool);
 
   const CustomizedContent = (props: any) => {
-    const { root, depth, x, y, width, height, name, size } = props;
+    const { x, y, width, height, segment } = props;
     return (
       <g>
         <rect
@@ -29,31 +39,27 @@ export function CandidatePoolChart({ data }: CandidatePoolChartProps) {
           width={width}
           height={height}
           style={{
-            fill: '#8884d8',
+            fill: segmentColors[segment] || '#8884d8',
             stroke: '#fff',
-            strokeWidth: 2 / (depth + 1e-10),
-            strokeOpacity: 1 / (depth + 1e-10),
+            strokeWidth: 2,
+            strokeOpacity: 1,
           }}
         />
-        {width > 50 && height > 30 && (
-          <text
-            x={x + width / 2}
-            y={y + height / 2}
-            textAnchor="middle"
-            dominantBaseline="middle"
-            style={{
-              fill: '#fff',
-              fontSize: '12px',
-              fontWeight: 'bold',
-              pointerEvents: 'none',
-            }}
-          >
-            <tspan x={x + width / 2} dy="-0.5em">{name}</tspan>
-            <tspan x={x + width / 2} dy="1.2em">{size}</tspan>
-          </text>
-        )}
       </g>
     );
+  };
+
+  const CustomTooltip = ({ active, payload }: any) => {
+    if (active && payload && payload.length) {
+      const data = payload[0].payload;
+      return (
+        <div className="bg-white p-2 border rounded shadow">
+          <p className="font-semibold">{data.name}</p>
+          <p className="text-sm">Candidates: {data.size}</p>
+        </div>
+      );
+    }
+    return null;
   };
 
   return (
@@ -70,10 +76,9 @@ export function CandidatePoolChart({ data }: CandidatePoolChartProps) {
             dataKey="size"
             aspectRatio={4 / 3}
             stroke="#fff"
-            fill="#8884d8"
             content={<CustomizedContent />}
           >
-            <Tooltip />
+            <Tooltip content={<CustomTooltip />} />
           </Treemap>
         </ResponsiveContainer>
       </div>
