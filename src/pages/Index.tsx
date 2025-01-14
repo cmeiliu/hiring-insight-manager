@@ -9,6 +9,7 @@ import { CandidatePoolChart } from "@/components/dashboard/CandidatePoolChart";
 import { InterviewChart } from "@/components/dashboard/InterviewChart";
 import { NewHirePerformanceChart } from "@/components/dashboard/NewHirePerformanceChart";
 import { CandidateProfileChart } from "@/components/dashboard/CandidateProfileChart";
+import { DashboardChat } from "@/components/dashboard/DashboardChat";
 import { Button } from "@/components/ui/button";
 import { Download } from "lucide-react";
 import { downloadAllDatasets } from "@/lib/exportUtils";
@@ -80,6 +81,17 @@ export default function Index() {
           onRoleChange={setRole}
           onLeaderChange={setLeader}
           onDateRangeChange={setDateRange}
+        />
+
+        <DashboardChat
+          data={{
+            hiringData: filterData(hiringData),
+            attritionData: filterData(attritionData),
+            loaData: filterData(loaData),
+            candidatePoolData: filterData(candidatePoolData),
+            interviewData: filterData(interviewData),
+            candidateProfileData: filterData(candidateProfileData),
+          }}
         />
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
