@@ -122,10 +122,10 @@ with col1:
 
 with col2:
     avg_attrition = attrition_data['rate'].mean() * 100
-    st.metric("Average Attrition Rate", f"{avg_attrition:.1f}%")
+    st.metric("Average Attrition Rate", "{:.1f}%".format(avg_attrition))
 
 with col3:
-    total_candidates = candidate_pool['pool_size'].sum()
+    total_candidates = candidate_pool['pool_size'].sum();
     st.metric("Total Candidates", total_candidates)
 
 # Hiring metrics
@@ -256,7 +256,7 @@ with col2:
 mask = (hiring_data['segment'].isin(selected_segment)) & \
        (hiring_data['date'] >= pd.Timestamp(date_range[0])) & \
        (hiring_data['date'] <= pd.Timestamp(date_range[1]))
-filtered_hiring = hiring_data[mask]
+filtered_hiring = hiring_data[mask];
 
 # Key Metrics with Trends
 col1, col2, col3, col4 = st.columns(4)
@@ -264,19 +264,19 @@ with col1:
     total_hires = filtered_hiring['actual'].sum()
     prev_hires = filtered_hiring['actual'].iloc[:-1].sum() if len(filtered_hiring) > 1 else 0
     hire_trend = ((total_hires - prev_hires) / prev_hires * 100) if prev_hires > 0 else 0
-    st.metric("Total Hires", total_hires, f"{hire_trend:.1f}%")
+    st.metric("Total Hires", total_hires, "{:.1f}%".format(hire_trend))
 
 with col2:
     avg_time = filtered_hiring['time_to_fill'].mean()
-    st.metric("Avg Time to Fill", f"{avg_time:.0f} days")
+    st.metric("Avg Time to Fill", "{:.0f} days".format(avg_time))
 
 with col3:
     avg_cost = filtered_hiring['cost_per_hire'].mean()
-    st.metric("Avg Cost per Hire", f"${avg_cost:,.0f}")
+    st.metric("Avg Cost per Hire", "${:,.0f}".format(avg_cost))
 
 with col4:
     efficiency = (filtered_hiring['actual'] / filtered_hiring['planned']).mean() * 100
-    st.metric("Hiring Efficiency", f"{efficiency:.1f}%")
+    st.metric("Hiring Efficiency", "{:.1f}%".format(efficiency))
 
 # Advanced Visualizations
 st.header('Hiring Performance Analysis')
@@ -371,46 +371,6 @@ with tabs[2]:
     st.dataframe(forecast[['ds', 'yhat', 'yhat_lower', 'yhat_upper']])
     csv = forecast.to_csv(index=False).encode('utf-8')
     st.download_button("Download Forecast Data", csv, "forecast_data.csv", "text/csv")
-
-# Add Snowflake connection template (commented out)
-"""
-# Snowflake connection template
-def init_snowflake_connection():
-    return snowflake.connector.connect(
-        user='your_username',
-        password='your_password',
-        account='your_account',
-        warehouse='your_warehouse',
-        database='your_database',
-        schema='your_schema'
-    )
-
-# Example query template
-def get_hiring_data():
-    conn = init_snowflake_connection()
-    cur = conn.cursor()
-    try:
-        cur.execute('''
-            SELECT date, segment, planned, actual, time_to_fill, cost_per_hire
-            FROM hiring_metrics
-            ORDER BY date DESC
-        ''')
-        return cur.fetch_pandas_all()
-    finally:
-        cur.close()
-        conn.close()
-"""`;
-
-    const blob = new Blob([code], { type: 'text/plain' });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'hr_dashboard_advanced.py';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    window.URL.revokeObjectURL(url);
-  };
 
   return (
     <Card className="p-4 space-y-4">
