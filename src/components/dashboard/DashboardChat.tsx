@@ -125,7 +125,7 @@ with col2:
     st.metric("Average Attrition Rate", "{:.1f}%".format(avg_attrition))
 
 with col3:
-    total_candidates = candidate_pool['pool_size'].sum();
+    total_candidates = candidate_pool['pool_size'].sum()
     st.metric("Total Candidates", total_candidates)
 
 # Hiring metrics
@@ -271,7 +271,7 @@ with col2:
     st.metric("Avg Time to Fill", "{:.0f} days".format(avg_time))
 
 with col3:
-    avg_cost = filtered_hiring['cost_per_hire'].mean()
+    avg_cost = filtered_hiring['cost_per_hire'].mean();
     st.metric("Avg Cost per Hire", "${:,.0f}".format(avg_cost))
 
 with col4:
@@ -371,6 +371,9 @@ with tabs[2]:
     st.dataframe(forecast[['ds', 'yhat', 'yhat_lower', 'yhat_upper']])
     csv = forecast.to_csv(index=False).encode('utf-8')
     st.download_button("Download Forecast Data", csv, "forecast_data.csv", "text/csv")
+`;
+
+  };
 
   return (
     <Card className="p-4 space-y-4">
