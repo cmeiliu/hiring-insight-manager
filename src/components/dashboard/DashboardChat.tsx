@@ -176,16 +176,6 @@ if st.button('Download All Data'):
         mime='text/csv',
     )
 `;
-    
-    const blob = new Blob([code], { type: 'text/plain' });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'hr_dashboard_basic.py';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    window.URL.revokeObjectURL(url);
   };
 
   const generateAdvancedStreamlitCode = () => {
@@ -263,8 +253,8 @@ with col2:
                               max_value=hiring_data['date'].max())
 
 # Filter data based on selection
-mask = (hiring_data['segment'].isin(selected_segment)) & \
-       (hiring_data['date'] >= pd.Timestamp(date_range[0])) & \
+mask = (hiring_data['segment'].isin(selected_segment)) & \\
+       (hiring_data['date'] >= pd.Timestamp(date_range[0])) & \\
        (hiring_data['date'] <= pd.Timestamp(date_range[1]))
 filtered_hiring = hiring_data[mask]
 
@@ -409,8 +399,7 @@ def get_hiring_data():
     finally:
         cur.close()
         conn.close()
-"""
-`;
+"""`;
     
     const blob = new Blob([code], { type: 'text/plain' });
     const url = window.URL.createObjectURL(blob);
