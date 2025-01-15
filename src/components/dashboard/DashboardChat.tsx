@@ -59,8 +59,8 @@ export function DashboardChat({ data }: DashboardChatProps) {
         }),
       });
 
-      const data = await response.json();
-      setResponse(data.choices[0].message.content);
+      const responseData = await response.json();
+      setResponse(responseData.choices[0].message.content);
     } catch (error) {
       toast({
         title: "Error",
